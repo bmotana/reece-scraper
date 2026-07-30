@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "reece-scraper"
+version = "1.0.0"
+description = "Playwright-based scraper for product catalogue data from Reece Australia"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "Bafana" }]
+keywords = ["web-scraping", "playwright", "ecommerce", "python", "csv"]
+dependencies = [
+    "playwright>=1.40.0",
+]
+
+[project.urls]
+Repository = "https://github.com/USERNAME/reece-scraper"
+
+[project.scripts]
+reece-scraper = "scraper:main"
+
+[tool.setuptools]
+py-modules = ["scraper"]

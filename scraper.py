@@ -4,6 +4,7 @@ import re
 import time
 import urllib.parse
 from pathlib import Path
+
 from playwright.sync_api import sync_playwright
 
 OUTPUT_FILE = "products.csv"
@@ -26,6 +27,7 @@ START_URLS = [
     "https://www.reece.com.au/search?query=plumbing",
 ]
 
+
 # Set to None for scraping everything, or integer for limit during test runs
 MAX_PAGES_PER_CATEGORY = 1
 
@@ -42,7 +44,9 @@ def set_postcode(page, postcode=POSTCODE):
 
     postcode_link = page.locator("a.postcode-link")
     if postcode_link.count() == 0:
-        raise RuntimeError("Could not find the postcode selector on the Reece product page.")
+        raise RuntimeError(
+            "Could not find the postcode selector on the Reece product page."
+        )
 
     postcode_link.first.click()
 
@@ -87,7 +91,7 @@ def load_checkpoint():
     """
     if Path(CHECKPOINT_FILE).exists():
         try:
-            with open(CHECKPOINT_FILE, "r", encoding="utf-8") as f:
+            with open(CHECKPOINT_FILE, encoding="utf-8") as f:
                 data = json.load(f)
                 if isinstance(data, dict):
                     if "visited_products" not in data:
@@ -213,12 +217,14 @@ def clean_image_urls(image_urls, product_name, sku):
 
 def extract_specifications(page):
     """
-    Clicks the specification button (if present) to load specs, then parses key-value tables.
+    Clicks the specification button (if present) to load specs, then parses
+    key-value tables.
     """
     try:
         # Check if the "View Product Specifications" button is present and click it
         spec_btn = page.locator(
-            "button:has-text('View Product Specifications'), a:has-text('View Product Specifications')"
+            "button:has-text('View Product Specifications'), "
+            "a:has-text('View Product Specifications')"
         )
         if spec_btn.count() > 0:
             spec_btn.first.click()
@@ -231,7 +237,9 @@ def extract_specifications(page):
         """
         () => {
             const specs = {};
-            const tables = [...document.querySelectorAll('table.details-table.details-table--2-col')];
+            const tables = [...document.querySelectorAll(
+                'table.details-table.details-table--2-col'
+            )];
 
             tables.forEach((table) => {
                 table.querySelectorAll('tr').forEach((row) => {
@@ -439,7 +447,9 @@ def run_discovery(page, checkpoint):
                         new_links_count += 1
 
                 print(
-                    f"    Found {len(page_links)} products on page ({new_links_count} new). Total discovered: {len(discovered_set)}"
+                    f"    Found {len(page_links)} products on page "
+                    f"({new_links_count} new). "
+                    f"Total discovered: {len(discovered_set)}"
                 )
 
                 # Save state periodically during discovery
@@ -475,9 +485,13 @@ def main():
     discovered_products = checkpoint["discovered_products"]
 
     with sync_playwright() as p:
-        browser = p.chromium.launch(headless=True)
+        browser = p.chromium.launch(headless=False)
         context = browser.new_context(
-            user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+            user_agent=(
+                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                "AppleWebKit/537.36 (KHTML, like Gecko) "
+                "Chrome/120.0.0.0 Safari/537.36"
+            ),
             viewport={"width": 1280, "height": 800},
         )
         page = context.new_page()
@@ -495,7 +509,7 @@ def main():
         to_scrape = [
             link for link in discovered_products if link not in visited_products
         ]
-        print(f"\n--- Scraping Queue ---")
+        print("\n--- Scraping Queue ---")
         print(f"Total Discovered Links: {len(discovered_products)}")
         print(f"Already Visited:        {len(visited_products)}")
         print(f"Remaining to Scrape:    {len(to_scrape)}")
@@ -511,7 +525,7 @@ def main():
                     q = params.get("query", [""])[0]
                     if q:
                         category = q.replace("-", " ").title()
-                except:
+                except Exception:
                     pass
 
             # Simple retry loop for network robustness
@@ -536,7 +550,8 @@ def main():
                 except Exception as e:
                     retries -= 1
                     print(
-                        f"  Attempt failed for: {product_url}. Retries remaining: {retries}. Error: {e}"
+                        f"  Attempt failed for: {product_url}. "
+                        f"Retries remaining: {retries}. Error: {e}"
                     )
                     if retries > 0:
                         time.sleep(5)

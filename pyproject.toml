@@ -16,10 +16,29 @@ dependencies = [
 ]
 
 [project.urls]
-Repository = "https://github.com/USERNAME/reece-scraper"
+Repository = "https://github.com/bmotana/reece-scraper"
 
 [project.scripts]
 reece-scraper = "scraper:main"
 
 [tool.setuptools]
 py-modules = ["scraper"]
+
+[tool.ruff]
+line-length = 88
+target-version = "py310"
+
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle errors
+    "W",   # pycodestyle warnings
+    "F",   # pyflakes
+    "I",   # isort
+    "B",   # flake8-bugbear
+    "UP",  # pyupgrade
+]
+ignore = []
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"

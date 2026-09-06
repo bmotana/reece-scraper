@@ -80,7 +80,7 @@ More captures live under [`docs/assets/`](docs/assets/).
 ### 1. Clone & create a virtual environment
 
 ```bash
-git clone https://github.com/USERNAME/reece-scraper.git
+git clone https://github.com/bmotana/reece-scraper.git
 cd reece-scraper
 
 python -m venv venv

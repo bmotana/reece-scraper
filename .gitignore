@@ -33,7 +33,6 @@ products.csv
 checkpoint.json
 
 # Personal / local notes
-cheatsheet.txt
 *.local.md
 
 # Secrets / env

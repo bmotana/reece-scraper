@@ -135,9 +135,11 @@ reece-scraper/
 ├── README.md
 ├── data/
 │   └── sample_products.csv # Demo rows for the portfolio
-└── docs/
-    ├── project-scope.md    # Original brief / scope
-    └── assets/             # UI screenshots
+├── docs/
+│   ├── project-scope.md    # Original brief / scope
+│   └── assets/             # UI screenshots
+└── tests/
+    └── test_scraper.py     # Unit and integration tests
 ```
 
 Runtime files (`products.csv`, `checkpoint.json`, `venv/`) are gitignored.

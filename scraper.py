@@ -566,3 +566,12 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+"""TODO: Add a “Quality checks” section mentioning the unit tests and how to run
+    them.
+
+  - Make browser visibility configurable (for example HEADLESS = False) rather
+    than hard-coded, so clients can choose debugging versus unattended runs.
+
+  - Add your Upwork profile, GitHub profile, or contact link if you want this
+    README to directly generate opportunities."""

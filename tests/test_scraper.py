@@ -9,15 +9,15 @@ from playwright.sync_api import sync_playwright
 
 # Load the standalone scraper module directly so these tests work with
 # `unittest discover` as well as direct execution.
-scaper_path = Path(__file__).resolve().parents[1] / "scraper.py"
-spec = importlib.util.spec_from_file_location("scraper", scaper_path)
-scaper = importlib.util.module_from_spec(spec)
-spec.loader.exec_module(scaper)
+scraper_path = Path(__file__).resolve().parents[1] / "scraper.py"
+spec = importlib.util.spec_from_file_location("scraper", scraper_path)
+scraper = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(scraper)
 
-clean_image_urls = scaper.clean_image_urls
-extract_search_category = scaper.extract_search_category
-scrape_product = scaper.scrape_product
-set_postcode = scaper.set_postcode
+clean_image_urls = scraper.clean_image_urls
+extract_search_category = scraper.extract_search_category
+scrape_product = scraper.scrape_product
+set_postcode = scraper.set_postcode
 
 
 class TestScraperHelpers(unittest.TestCase):
@@ -63,7 +63,7 @@ class TestLivePostcode(unittest.TestCase):
                 set_postcode(page, "3000")
                 product = scrape_product(
                     page,
-                    scaper.POSTCODE_SETUP_URL,
+                    scraper.POSTCODE_SETUP_URL,
                     "Kitchen And Laundry",
                 )
             finally:
